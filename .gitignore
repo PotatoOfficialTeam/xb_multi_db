@@ -1,0 +1,54 @@
+# 敏感文件
+.env
+.env.local
+.env.production
+*.pem
+*.key
+
+# MySQL 数据文件
+data/*/
+!data/.gitkeep
+
+# MySQL 日志文件
+logs/
+*.log
+
+# MySQL 二进制日志和临时文件
+mysql-bin.*
+*.binlog
+ib_logfile*
+ib_buffer_pool
+ibdata*
+ibtmp*
+auto.cnf
+*.sock
+
+# 备份文件
+*.sql
+*.dump
+backup/
+*.bak
+*.backup
+*.old
+
+# 临时文件
+*.tmp
+
+# IDE 和编辑器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# Docker 相关
+.dockerignore
+
+# 压缩文件
+*.zip
+*.tar.gz
+*.rar

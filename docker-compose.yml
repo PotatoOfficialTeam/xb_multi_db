@@ -1,0 +1,48 @@
+
+services:
+  v2word-db:
+    image: mysql:5.7
+    container_name: v2word_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${V2WORD_ROOT_PASSWORD}
+      MYSQL_DATABASE: v2word
+      MYSQL_USER: ${V2WORD_DB_USER}
+      MYSQL_PASSWORD: ${V2WORD_DB_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./data/v2word:/var/lib/mysql
+      - ./config/v2word.cnf:/etc/mysql/conf.d/custom.cnf:ro
+      - ./scripts/v2word:/docker-entrypoint-initdb.d:ro
+      - ./logs/v2word:/var/log/mysql
+    networks:
+      - db-network
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  wujie-db:
+    image: mysql:5.7
+    container_name: wujie_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${WUJIE_ROOT_PASSWORD}
+      MYSQL_DATABASE: wujie
+      MYSQL_USER: ${WUJIE_DB_USER}
+      MYSQL_PASSWORD: ${WUJIE_DB_PASSWORD}
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./data/wujie:/var/lib/mysql
+      - ./config/wujie.cnf:/etc/mysql/conf.d/custom.cnf:ro
+      - ./scripts/wujie:/docker-entrypoint-initdb.d:ro
+      - ./logs/wujie:/var/log/mysql
+    networks:
+      - db-network
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+networks:
+  db-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
